@@ -82,9 +82,6 @@ More detail can be found on this thread:
 http://sudomod.com/forum/viewtopic.php?f=8&t=97
 
 Pre-order thread for Safe Shutdown Switch:
-http://sudomod.com/forum/viewtopic.php?f=3&t=1293
-
-Guide to creating a Safe Shutdown Switch of your own:
-http://sudomod.com/forum/viewtopic.php?f=22&t=1059
+http://sudomod.com/forum/viewtopic.php?f=3&t=1706
 
 Feel free to contact me on the Sudomod forums (www.sudomod.com/forum) or on the Sudomod Discord channel (https://discordapp.com/channels/188359728454303744/188359728454303744)
