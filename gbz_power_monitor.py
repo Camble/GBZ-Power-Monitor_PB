@@ -31,31 +31,35 @@ def lowBattery(channel):
 
     if GPIO.input(batteryGPIO) is 1:
        break
-  
-  global playerFlag   
+
+  global playerFlag
   while playerFlag is 1:
     time.sleep(1)
-     
+
   #If the LED is a solid condition, there will be no bounce.  Launch shutdown video and then gracefully shutdown
   if bounceSample is int(round(batteryTimeout / sampleRate)) - 1:
     playerFlag = 1
-    os.system("/usr/bin/omxplayer --no-osd --layer 999999 " + shutdownVideo + " --alpha 180;sudo shutdown -h now");
-    playerFlag = 0
-    sys.exit(0)
+    os.system("/usr/bin/omxplayer --no-osd --layer 999999 " + shutdownVideo + " --alpha 180;")
+    if GPIO.input(batteryGPIO) is 1:
+      break
+    else:
+      os.system("sudo shutdown -h now")
+      playerFlag = 0
+      sys.exit(0)
 
-  #If the LED is a solid for more than 10% of the timeout, we know that the battery is getting low.  Launch the Low Battery alert. 
+  #If the LED is a solid for more than 10% of the timeout, we know that the battery is getting low.  Launch the Low Battery alert.
   if bounceSample > int(round(batteryTimeout / sampleRate * 0.1)):
     playerFlag = 1
-    os.system("/usr/bin/omxplayer --no-osd --layer 999999 " + lowalertVideo + " --alpha 160;");
+    os.system("/usr/bin/omxplayer --no-osd --layer 999999 " + lowalertVideo + " --alpha 160;")
     playerFlag = 0
-    
+
     #Discovered a bug with the Python GPIO library and threaded events.  Need to unbind and rebind after a System Call or the program will crash
     GPIO.remove_event_detect(batteryGPIO)
     GPIO.add_event_detect(batteryGPIO, GPIO.BOTH, callback=lowBattery, bouncetime=300)
-    
+
     #If we know the battery is low, we aggresively monitor the level to ensure we shutdown once the Power Timeout is exceeded.
     lowBattery(batteryGPIO)
-    
+
 def powerSwitch(channel):
   #Checking for LED bounce for the duration of the Power Timeout
   for bounceSample in range(1, int(round(powerTimeout / sampleRate))):
@@ -79,7 +83,7 @@ def powerSwitch(channel):
       sys.exit(0)
 
 def main():
-  #if the Low Battery LED is active when the program launches, handle it 
+  #if the Low Battery LED is active when the program launches, handle it
   if GPIO.input(batteryGPIO) is 0:
     lowBattery(batteryGPIO)
 
