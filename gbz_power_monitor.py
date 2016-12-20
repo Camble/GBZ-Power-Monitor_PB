@@ -40,9 +40,7 @@ def lowBattery(channel):
   if bounceSample is int(round(batteryTimeout / sampleRate)) - 1:
     playerFlag = 1
     os.system("/usr/bin/omxplayer --no-osd --layer 999999 " + shutdownVideo + " --alpha 180;")
-    if GPIO.input(batteryGPIO) is 1:
-      break
-    else:
+    if GPIO.input(batteryGPIO) is 0:
       os.system("sudo shutdown -h now")
       playerFlag = 0
       sys.exit(0)
