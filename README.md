@@ -1,5 +1,5 @@
-# GBZ-Power-Monitor V1.0a by Popcorn
-PowerBoost edition (amended by Camble)
+# GBZ-Power-Monitor a1.0a
+PowerBoost edition
 
 Background
 ----------
